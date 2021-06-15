@@ -220,10 +220,10 @@ def single_file(input_filename):
     #----------
     # loop over radii
     #----------
-   loopstart = time.time()
     ir_list = range(ir_start, ir_stop+1)
     eigenvalues = []
     kgrid_list = []
+    loopstart = time.time()
     for ir in ir_list:
         start = time.time()
 
