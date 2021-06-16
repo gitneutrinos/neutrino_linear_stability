@@ -284,6 +284,7 @@ def single_file(input_filename):
     fout["n_tilde"] = n_tilde
     fout["ir (base 0)"] = ir_list
     fout["ir (base 1)"] = [ir+1 for ir in ir_list]
+    fout["radii"]= np.array(fin["r(cm)"])
     fout["number_dist (1|ccm)"] = number_dist
     fout["eigenvalues (erg)"] = eigenvalues
     fout["kgrid (erg)"] = kgrid_list
