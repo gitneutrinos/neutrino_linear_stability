@@ -65,7 +65,7 @@ def read_data(filename):
     dist = np.array(fin["distribution(erg|ccm,lab)"])
     rho = np.array(fin["rho(g|ccm,com)"])
     Ye = np.array(fin["Ye"])
-    rmid = np.array(fin["r(cm)"])
+    rgrid = np.array(fin["r(cm)"])
     frequency = np.array(fin["distribution_frequency_mid(Hz,lab)"])
 
     fin.close()
@@ -75,7 +75,7 @@ def read_data(filename):
     # heavy lepton distribution represents mu,tau,mubar,taubar
     dist[:,2,:,:] /= 4. 
 
-    return mugrid, mumid, frequency, dist, rho, Ye, rmid
+    return mugrid, mumid, frequency, dist, rho, Ye, rgrid
 
 #===========================================#
 # build array of k values to be looped over #
@@ -175,7 +175,7 @@ def single_file(input_filename):
     #----------
     # read in data
     #----------
-    mugrid, mumid, frequency, dist, rho, Ye, rmid = read_data(input_filename)
+    mugrid, mumid, frequency, dist, rho, Ye, rgrid = read_data(input_filename)
 
     #----------
     # refine distribution
@@ -284,7 +284,7 @@ def single_file(input_filename):
     fout["n_tilde"] = n_tilde
     fout["ir (base 0)"] = ir_list
     fout["ir (base 1)"] = [ir+1 for ir in ir_list]
-    fout["radii"]= rmid
+    fout["radii (cm)"]= rgrid
     fout["number_dist (1|ccm)"] = number_dist
     fout["eigenvalues (erg)"] = eigenvalues
     fout["kgrid (erg)"] = kgrid_list
