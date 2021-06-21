@@ -273,6 +273,7 @@ def single_file(input_filename):
     #----------
     output_filename = input_filename[:-3]
     output_filename += "_dm"+"{:.2e}".format(dm2/eV**2)
+    output_filename+= "_"+distribution_interpolator
     output_filename += "_res="+"{:d}".format(target_resolution)
     output_filename += "_kres="+"{:d}".format(numb_k)
     output_filename += "_eigenvalues.h5"
