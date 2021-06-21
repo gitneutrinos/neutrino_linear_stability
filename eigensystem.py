@@ -263,6 +263,11 @@ def single_file(input_filename):
     S_nok, mu_tilde = get_shared_numpy_arrays()
 
     #----------
+    # get eigenvalues max per radius for output
+    #----------
+    ev_max_per_r = np.max(np.imag(evs),axis=2,axis=1) #takes the maximum imaginary eigenvalue across all k at each r.
+
+    #----------
     # set output filename
     #----------
     output_filename = input_filename[:-3]
@@ -288,6 +293,7 @@ def single_file(input_filename):
     fout["number_dist (1|ccm)"] = number_dist
     fout["eigenvalues (erg)"] = eigenvalues
     fout["kgrid (erg)"] = kgrid_list
+    fout["eigenvalue maxium per radius (erg)"] = ev_max_per_r
     fout.close()
 
 single_file(input_filename)
