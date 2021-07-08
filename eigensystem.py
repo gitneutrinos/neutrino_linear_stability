@@ -75,7 +75,7 @@ def read_data(filename):
     rho = np.array(fin["rho(g|ccm,com)"])
     Ye = np.array(fin["Ye"])
     frequency = np.array(fin["distribution_frequency_mid(Hz,lab)"])
-    
+    rgrid = np.array(fin["r(cm)"])
     fin.close()
 
     # sum over phi because we don't need it
@@ -84,7 +84,7 @@ def read_data(filename):
     # heavy lepton distribution represents mu,tau,mubar,taubar
     dist[:,2,:,:] /= 4. 
 
-    return mugrid, mumid, frequency, dist, rho, Ye
+    return mugrid, mumid, frequency, dist, rho, Ye, rgrid
 
 #===========================================#
 # build array of k values to be looped over #
@@ -183,7 +183,7 @@ def single_file(input_filename):
     #----------
     # read in data
     #----------
-    mugrid, mumid, frequency, dist, rho, Ye = read_data(input_filename)
+    mugrid, mumid, frequency, dist, rho, Ye, rgrid = read_data(input_filename)
 
     #----------
     # refine distribution
@@ -260,7 +260,7 @@ def single_file(input_filename):
               " minI="+"{:.2e}".format(np.min(np.imag(eigenvalues_thisr))),
               " maxI="+"{:.2e}".format(np.max(np.imag(eigenvalues_thisr))))
     loopend=time.time()
-    print("total time ="+str(loopstart-loopend)+" seconds")        
+    print("total time ="+str(loopend-loopstart)+" seconds")        
 
     #----------
     # get mu_tilde for output
@@ -273,7 +273,8 @@ def single_file(input_filename):
     output_filename = input_filename[:-3]
     output_filename += "_dm"+"{:.2e}".format(dm2/eV**2)
     output_filename += "_"+distribution_interpolator
-    output_filename += str(target_resolution)
+    output_filename += "_res="+str(target_resolution)
+    output_filename += "kres="+str(numb_k)
     output_filename += "_eigenvalues.h5"
     print("Writing",output_filename)
 
@@ -292,6 +293,7 @@ def single_file(input_filename):
     fout["number_dist (1|ccm)"] = number_dist
     fout["eigenvalues (erg)"] = eigenvalues
     fout["kgrid (erg)"] = kgrid_list
+    fout["radius (cm)"] = rgrid
     fout.close()
 
 if __name__ == '__main__':
